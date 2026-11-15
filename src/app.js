@@ -3,8 +3,15 @@ const mobileNavigation = document.querySelector("[data-mobile-navigation]");
 const form = document.querySelector("[data-estimate-form]");
 const formMessage = document.querySelector("[data-form-message]");
 const year = document.querySelector("[data-current-year]");
+const serviceSelect = document.querySelector("#service");
 
 if (year) year.textContent = new Date().getFullYear();
+
+const requestedService = new URLSearchParams(window.location.search).get("service");
+if (serviceSelect && requestedService) {
+  const matchingOption = [...serviceSelect.options].find((option) => option.text === requestedService);
+  if (matchingOption) serviceSelect.value = matchingOption.value;
+}
 
 menuButton?.addEventListener("click", () => {
   const isOpen = menuButton.getAttribute("aria-expanded") === "true";

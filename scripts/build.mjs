@@ -26,11 +26,14 @@ execFileSync(
 
 await Promise.all([
   cp(path.join(sourceRoot, "index.html"), path.join(outputRoot, "index.html")),
+  mkdir(path.join(outputRoot, "bathroom-renovation"), { recursive: true }).then(() =>
+    cp(path.join(sourceRoot, "bathroom-renovation.html"), path.join(outputRoot, "bathroom-renovation", "index.html")),
+  ),
   cp(path.join(sourceRoot, "app.js"), path.join(outputRoot, "assets", "app.js")),
   cp(path.join(sourceRoot, "public"), outputRoot, { recursive: true }),
 ]);
 
-for (const relativePath of ["index.html", "robots.txt", "sitemap.xml", "site.webmanifest"]) {
+for (const relativePath of ["index.html", "bathroom-renovation/index.html", "robots.txt", "sitemap.xml", "site.webmanifest"]) {
   const outputPath = path.join(outputRoot, relativePath);
   const template = await readFile(outputPath, "utf8");
   const rendered = template

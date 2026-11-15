@@ -21,7 +21,7 @@ const mimeTypes = {
 
 createServer(async (request, response) => {
   const pathname = new URL(request.url, `http://${request.headers.host}`).pathname;
-  const requestedPath = pathname === "/" ? "/index.html" : pathname;
+  const requestedPath = pathname.endsWith("/") ? `${pathname}index.html` : pathname;
   const resolvedPath = path.resolve(publicRoot, `.${requestedPath}`);
 
   if (!resolvedPath.startsWith(publicRoot)) {
