@@ -33,8 +33,8 @@ jobs:
       - name: Build GitHub Pages site
         run: npm run build
         env:
-          SITE_URL: https://renotherapy.github.io/web
-          BASE_PATH: /web/
+          SITE_URL: https://renotherapy.ca
+          BASE_PATH: /
 
       - name: Validate output
         run: npm run check
