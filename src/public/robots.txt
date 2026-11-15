@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://renotherapy-construction.company-5897.chatgpt.site/sitemap.xml
