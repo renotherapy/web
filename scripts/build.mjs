@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { cp, mkdir, readdir, rm } from "node:fs/promises";
+import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
@@ -10,6 +10,9 @@ const outputRoot = path.join(projectRoot, "dist");
 const sourceImages = path.join(sourceRoot, "assets", "images");
 const outputImages = path.join(outputRoot, "assets", "images");
 const tailwindBinary = path.join(projectRoot, "node_modules", "@tailwindcss", "cli", "dist", "index.mjs");
+const siteUrl = (process.env.SITE_URL || "https://renotherapy-construction.company-5897.chatgpt.site").replace(/\/$/, "");
+const requestedBasePath = process.env.BASE_PATH || "/";
+const basePath = `/${requestedBasePath.replace(/^\/+|\/+$/g, "")}${requestedBasePath === "/" ? "" : "/"}`;
 
 await rm(outputRoot, { recursive: true, force: true });
 await mkdir(path.join(outputRoot, "assets"), { recursive: true });
@@ -26,6 +29,15 @@ await Promise.all([
   cp(path.join(sourceRoot, "app.js"), path.join(outputRoot, "assets", "app.js")),
   cp(path.join(sourceRoot, "public"), outputRoot, { recursive: true }),
 ]);
+
+for (const relativePath of ["index.html", "robots.txt", "sitemap.xml", "site.webmanifest"]) {
+  const outputPath = path.join(outputRoot, relativePath);
+  const template = await readFile(outputPath, "utf8");
+  const rendered = template
+    .replaceAll("{{SITE_URL}}", siteUrl)
+    .replaceAll("{{BASE_PATH}}", basePath);
+  await writeFile(outputPath, rendered, "utf8");
+}
 
 for (const entry of await readdir(sourceImages, { withFileTypes: true })) {
   if (!entry.isFile()) continue;

@@ -30,4 +30,7 @@ await access(path.join(projectRoot, "dist", "sitemap.xml"));
 await access(path.join(projectRoot, "dist", "robots.txt"));
 await access(path.join(projectRoot, "dist", "assets", "styles.css"));
 
+const builtHtml = await readFile(path.join(projectRoot, "dist", "index.html"), "utf8");
+if (builtHtml.includes("{{")) throw new Error("Output check failed: unresolved template token in dist/index.html.");
+
 console.log("HTML, accessibility, SEO, and output checks passed.");

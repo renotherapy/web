@@ -1,13 +1,13 @@
 {
   "name": "Renotherapy Construction Ltd.",
   "short_name": "Renotherapy",
-  "start_url": "/",
+  "start_url": "{{BASE_PATH}}",
   "display": "standalone",
   "background_color": "#faf8f3",
   "theme_color": "#143324",
   "icons": [
     {
-      "src": "/assets/images/logo.png",
+      "src": "{{BASE_PATH}}assets/images/logo.png",
       "sizes": "250x259",
       "type": "image/png"
     }
